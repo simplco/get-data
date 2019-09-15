@@ -1,0 +1,72 @@
+backendType: SECOND_GEN
+connectionName: testsite-234503:us-west2:simplusers
+databaseVersion: POSTGRES_11
+etag: 67ef41e1214704e4f225497de00e423aa0839b7e02846fdcc310a7f53ea656be
+gceZone: us-west2-a
+instanceType: CLOUD_SQL_INSTANCE
+ipAddresses:
+- ipAddress: 34.94.160.242
+  type: PRIMARY
+kind: sql#instance
+name: simplusers
+project: testsite-234503
+region: us-west2
+selfLink: https://www.googleapis.com/sql/v1beta4/projects/testsite-234503/instances/simplusers
+serverCaCert:
+  cert: |-
+    -----BEGIN CERTIFICATE-----
+    MIIDfzCCAmegAwIBAgIBADANBgkqhkiG9w0BAQsFADB3MS0wKwYDVQQuEyQ1ZTg5
+    OTIwOC04MGJlLTRkNmMtODA2OS1hYWI1OTUzYjZiZjQxIzAhBgNVBAMTGkdvb2ds
+    ZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUsIEluYzELMAkG
+    A1UEBhMCVVMwHhcNMTkwOTE1MDM1NjA1WhcNMjkwOTEyMDM1NzA1WjB3MS0wKwYD
+    VQQuEyQ1ZTg5OTIwOC04MGJlLTRkNmMtODA2OS1hYWI1OTUzYjZiZjQxIzAhBgNV
+    BAMTGkdvb2dsZSBDbG91ZCBTUUwgU2VydmVyIENBMRQwEgYDVQQKEwtHb29nbGUs
+    IEluYzELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIB
+    AQCC6NDlLCRwtvnpjA3ulom2ap1IjcrXwd336LLDVS1onGOdHrihkbkzl5qHxPQp
+    +RDjhfK3kSMkxPuYxh0I/ejjwgzl+2iixXPUgIfLYdmFBkvzMO24byfEeUKdisJl
+    1kJ/aEw1RZociwwde/TPyD7nqsMIIKe1XG37poloZ/X87QzjyYKAG+juPXUor73w
+    MeFZcdurmtGJSLT+ZgL0ySPv15430B7+0E8e4TgkiKJoxE6+D7L1ROq9LBMK5xvu
+    e/mlPm67HxWSx2imNHl8MnuTrjhdj4egX8DgeSige1ZD5IR4g5dAPxrwjG/7NLTd
+    QiHdRlrnn2x7Lu0tUKffBpdXAgMBAAGjFjAUMBIGA1UdEwEB/wQIMAYBAf8CAQAw
+    DQYJKoZIhvcNAQELBQADggEBABhKcoz1LlIBFX2JpKyV13cWibXJKEiWn/fWetZ8
+    QrseJfq3oLzv5S0XFT3QAW1slg3FzoonQMlHYPk9K9lVXGDpgQDhGOMlaHtCHLBY
+    bRsfl9llGcydAqVO9ek6Vsa8l6ypkksGr/XhsocXx2+yuTaICRtLWVcQdJ7FPYM6
+    BxfInWPczw7L57v+fCR1w0H5TsJe0thQMImDJA0bLKidvomDCXyU//Qilwm1SL+m
+    YHLdR1BI/UzW5ZNmU9xKy40J3D6fLLmwOITZP40pk7qRFkaIK+dK3YnOMXIVAfeR
+    VlaJwCKUpAuWPSE2Y9lXirXwZ8yCpFQ4ar+whMxYlGVkdPI=
+    -----END CERTIFICATE-----
+  certSerialNumber: '0'
+  commonName: C=US,O=Google\, Inc,CN=Google Cloud SQL Server CA,dnQualifier=5e899208-80be-4d6c-8069-aab5953b6bf4
+  createTime: '2019-09-15T03:56:05.864000+00:00'
+  expirationTime: '2029-09-12T03:57:05.864000+00:00'
+  instance: simplusers
+  kind: sql#sslCert
+  sha1Fingerprint: 4daa40449b0b9473ce9035b788c38ceae50a6541
+serviceAccountEmailAddress: p606455469256-jie46i@gcp-sa-cloud-sql.iam.gserviceaccount.com
+settings:
+  activationPolicy: ALWAYS
+  availabilityType: ZONAL
+  backupConfiguration:
+    enabled: true
+    kind: sql#backupConfiguration
+    replicationLogArchivingEnabled: false
+    startTime: 06:00
+  dataDiskSizeGb: '10'
+  dataDiskType: PD_SSD
+  ipConfiguration:
+    ipv4Enabled: true
+  kind: sql#settings
+  locationPreference:
+    kind: sql#locationPreference
+    zone: us-west2-a
+  maintenanceWindow:
+    day: 0
+    hour: 0
+    kind: sql#maintenanceWindow
+  pricingPlan: PER_USE
+  replicationType: SYNCHRONOUS
+  settingsVersion: '3'
+  storageAutoResize: true
+  storageAutoResizeLimit: '0'
+  tier: db-custom-1-3840
+state: RUNNABLE

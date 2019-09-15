@@ -1,0 +1,16 @@
+create table users (
+UID VARCHAR(255) PRIMARY KEY,
+Meter VARCHAR(255),
+Email VARCHAR(255),
+Utility varchar(255),
+Tariff VARCHAR(255),
+latestts TIMESTAMP,
+wkts TIMESTAMP,
+mots TIMESTAMP,
+YesCons float(8),
+WkCons float(8),
+MoCons float(8),
+YesCost float(8),
+WkCost float(8),
+MoCost float(8)
+);
