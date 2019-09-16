@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"runtime"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -77,6 +78,10 @@ func main() {
 	fmt.Println("Yes. Consumption (KWh): ", data.Usage.Yesterday, "\tCost: $", data.Usage.CostYesterday)
 	fmt.Println("Wk. Consumption (KWh): ", data.Usage.ThisWeek, "\tCost: $", data.Usage.CostThisWeek)
 	fmt.Println("Mo. Consumption (KWh): ", data.Usage.ThisMonth, "\tCost: $", data.Usage.CostThisMonth)
+
+	var m runtime.MemStats
+	runtime.ReadMemStats(&m)
+	log.Println("total bytes allocated: ", m.TotalAlloc)
 
 	e := time.Now()
 	proctime := e.Sub(s)

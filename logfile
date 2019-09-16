@@ -123,3 +123,70 @@ log created:  2019-09-14 22:38:13.595524 -0700 PDT m=+0.002168833
 2019/09/15 11:19:23 ok
 2019/09/15 11:19:23 took: 1.878643687s
 2019/09/15 11:19:23 LOG FINISH
+2019/09/15 12:20:09 LOG START
+2019/09/15 12:20:09 pgdb uri:  postgres://postgres:Daniel8!@34.94.160.242:5432/simpl_users?sslmode=disable
+2019/09/15 12:20:42 LOG START
+2019/09/15 12:20:42 pgdb uri:  postgres://postgres:Daniel8!@34.94.160.242:5432/simpl_users?sslmode=disable
+2019/09/15 17:02:49 LOG START
+2019/09/15 17:02:49 pgdb uri:  postgres://postgres:Daniel8!@34.94.160.242:5432/simpl_users?sslmode=disable
+2019/09/15 17:02:49 fetching authed users...	
+2019/09/15 17:02:49 ok
+2019/09/15 17:02:49 fetching meter...	
+2019/09/15 17:02:49 ok
+2019/09/15 17:02:49 fetching intervals for meter 407223 ...	
+2019/09/15 17:02:50 ok
+2019/09/15 17:02:51 took: 1.882529399s
+2019/09/15 17:02:51 LOG FINISH
+2019/09/15 17:04:35 LOG START
+2019/09/15 17:04:35 pgdb uri:  postgres://postgres:Daniel8!@34.94.160.242:5432/simpl_users?sslmode=disable
+2019/09/15 17:04:36 fetching authed users...	
+2019/09/15 17:04:36 ok
+2019/09/15 17:04:36 fetching meter...	
+2019/09/15 17:04:36 ok
+2019/09/15 17:04:36 fetching intervals for meter 407223 ...	
+2019/09/15 17:04:37 ok
+2019/09/15 17:04:37 took: 1.64868928s
+2019/09/15 17:04:37 LOG FINISH
+2019/09/15 17:05:11 LOG START
+2019/09/15 17:05:11 pgdb uri:  postgres://postgres:Daniel8!@34.94.160.242:5432/simpl_users?sslmode=disable
+2019/09/15 17:05:11 fetching authed users...	
+2019/09/15 17:05:12 ok
+2019/09/15 17:05:12 fetching meter...	
+2019/09/15 17:05:12 ok
+2019/09/15 17:05:12 fetching intervals for meter 407223 ...	
+2019/09/15 17:05:13 ok
+2019/09/15 17:05:13 took: 1.598277092s
+2019/09/15 17:05:13 LOG FINISH
+2019/09/15 17:09:10 LOG START
+2019/09/15 17:09:10 pgdb uri:  postgres://postgres:Daniel8!@34.94.160.242:5432/simpl_users?sslmode=disable
+2019/09/15 17:09:10 fetching authed users...	
+2019/09/15 17:09:10 ok
+2019/09/15 17:09:10 fetching meter...	
+2019/09/15 17:09:11 ok
+2019/09/15 17:09:11 fetching intervals for meter 407223 ...	
+2019/09/15 17:09:11 ok
+2019/09/15 17:09:11 total bytes allocated:  5103504
+2019/09/15 17:09:11 took: 1.659643199s
+2019/09/15 17:09:11 LOG FINISH
+2019/09/15 17:09:40 LOG START
+2019/09/15 17:09:40 pgdb uri:  postgres://postgres:Daniel8!@34.94.160.242:5432/simpl_users?sslmode=disable
+2019/09/15 17:09:40 fetching authed users...	
+2019/09/15 17:09:41 ok
+2019/09/15 17:09:41 fetching meter...	
+2019/09/15 17:09:41 ok
+2019/09/15 17:09:41 fetching intervals for meter 407223 ...	
+2019/09/15 17:09:42 ok
+2019/09/15 17:09:42 total bytes allocated:  5104096
+2019/09/15 17:09:42 took: 1.632087989s
+2019/09/15 17:09:42 LOG FINISH
+2019/09/15 17:10:51 LOG START
+2019/09/15 17:10:51 pgdb uri:  postgres://postgres:Daniel8!@34.94.160.242:5432/simpl_users?sslmode=disable
+2019/09/15 17:10:52 fetching authed users...	
+2019/09/15 17:10:52 ok
+2019/09/15 17:10:52 fetching meter...	
+2019/09/15 17:10:52 ok
+2019/09/15 17:10:52 fetching intervals for meter 407223 ...	
+2019/09/15 17:10:53 ok
+2019/09/15 17:10:53 total bytes allocated:  5103896
+2019/09/15 17:10:53 took: 1.643935004s
+2019/09/15 17:10:53 LOG FINISH
