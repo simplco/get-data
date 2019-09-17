@@ -73,6 +73,7 @@ func Read(w http.ResponseWriter, req *http.Request) {
 	var result string
 	u := User{}
 
+	fmt.Fprintln(w, "querying db...")
 	row, err := db.Query("SELECT * FROM users WHERE email = 'ochoa.erick.d@gmail.com'")
 	if err != nil {
 		result = "shit, query failed at statement"
