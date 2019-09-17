@@ -1,5 +1,4 @@
-// TODO: refactor for cloud fn. (create, read, update, delete)
-// TODO; refactor for fields in /database/table-script.txt
+// TODO: refactor for cloud fn. (create, read, update, delete)s
 
 package main
 
@@ -61,23 +60,19 @@ func init() {
 func main() {
 	s := time.Now()
 
-	u, _ := getUserData("newbie")
-	result := updateDatabase(u)
+	simulatedEmail := "ochoa.erick.d@gmail.com"
+	result := create(simulatedEmail)
 	fmt.Println(result)
 
-	// data, result := queryDbForUserData("139376")
-	data, result := queryDbForUserData(u.UID)
-	fmt.Println(result)
+	// result = del("ochoa.erick.d@gmail.com")
+	// fmt.Println(result)
+
+	data, result := read(simulatedEmail)
+	fmt.Println("queried: ", data.UID, "result: ", result)
+
 	db.Close()
 
-	fmt.Println("UID: ", data.UID, "\tMeter:", data.Meterid, "\tEmail:", data.Useremail, "\tTariff: ", data.ServiceTariff)
-	fmt.Println("Latest Reading: ", data.LastReading)
-	fmt.Println("Wk TS: ", data.WeekStart)
-	fmt.Println("Mo TS: ", data.MonthStart)
-
-	fmt.Println("Yes. Consumption (KWh): ", data.Usage.Yesterday, "\tCost: $", data.Usage.CostYesterday)
-	fmt.Println("Wk. Consumption (KWh): ", data.Usage.ThisWeek, "\tCost: $", data.Usage.CostThisWeek)
-	fmt.Println("Mo. Consumption (KWh): ", data.Usage.ThisMonth, "\tCost: $", data.Usage.CostThisMonth)
+	purdyprint(data)
 
 	var m runtime.MemStats
 	runtime.ReadMemStats(&m)
@@ -89,7 +84,42 @@ func main() {
 	log.Println("LOG FINISH")
 }
 
-func updateDatabase(d *User) string {
+func create(email string) string {
+	var result string
+
+	u := getUserData(email)
+
+	if u.UID != "" {
+		_, err := db.Exec("insert into users ( uid , meter , email , utility , tariff , latestts , wkts , mots , yescons , wkcons , mocons , yescost , wkcost , mocost) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)", u.UID, u.Meterid, u.Useremail, u.Utility, u.ServiceTariff, u.LastReading, u.WeekStart, u.MonthStart, u.Yesterday, u.ThisWeek, u.ThisMonth, u.CostYesterday, u.CostThisWeek, u.CostThisMonth)
+		if err != nil {
+			fmt.Println(err)
+			result = "insert failed"
+			return result
+		}
+		result = "insert successful"
+	}
+
+	if u.UID == "" {
+		result = "poop, no user found with this uid"
+	}
+	return result
+}
+
+func del(email string) string {
+	var result string
+
+	_, err := db.Exec("delete from users where email=$1", email)
+	if err != nil {
+		log.Println(err)
+		result = "poop, deleting user with email:" + email + " failed"
+		return result
+	}
+
+	result = "deleted user with email: " + email
+	return result
+}
+
+func update(d *User) string {
 	var result string
 	var err error
 
@@ -104,11 +134,11 @@ func updateDatabase(d *User) string {
 	return result
 }
 
-func queryDbForUserData(uid string) (User, string) {
+func read(email string) (User, string) {
 	var result string
 	u := User{}
 
-	row, err := db.Query("SELECT * FROM users WHERE uid = $1", uid)
+	row, err := db.Query("SELECT * FROM users WHERE email = $1", email)
 	if err != nil {
 		fmt.Println(err)
 		result = "shit, query failed"
@@ -126,4 +156,15 @@ func queryDbForUserData(uid string) (User, string) {
 	result = "woo! query sucess"
 
 	return u, result
+}
+
+func purdyprint(data User) {
+	fmt.Println("UID: ", data.UID, "\tMeter:", data.Meterid, "\tEmail:", data.Useremail, "\tTariff: ", data.ServiceTariff)
+	fmt.Println("Latest Reading: ", data.LastReading)
+	fmt.Println("Wk TS: ", data.WeekStart)
+	fmt.Println("Mo TS: ", data.MonthStart)
+
+	fmt.Println("Yes. Consumption (KWh): ", data.Usage.Yesterday, "\tCost: $", data.Usage.CostYesterday)
+	fmt.Println("Wk. Consumption (KWh): ", data.Usage.ThisWeek, "\tCost: $", data.Usage.CostThisWeek)
+	fmt.Println("Mo. Consumption (KWh): ", data.Usage.ThisMonth, "\tCost: $", data.Usage.CostThisMonth)
 }
