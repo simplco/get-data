@@ -75,16 +75,16 @@ func Read(w http.ResponseWriter, req *http.Request) {
 
 	row, err := db.Query("SELECT * FROM users WHERE email = 'ochoa.erick.d@gmail.com'")
 	if err != nil {
-		fmt.Println(err)
-		result = "shit, query failed"
-		fmt.Fprint(w, result)
+		result = "shit, query failed at statement"
+		fmt.Fprintln(w, result)
+		fmt.Fprintln(w, err)
 	}
 	for row.Next() {
 		err = row.Scan(&u.UID, &u.Meterid, &u.Useremail, &u.Utility, &u.ServiceTariff, &u.LastReading, &u.WeekStart, &u.MonthStart, &u.Yesterday, &u.ThisWeek, &u.ThisMonth, &u.CostYesterday, &u.CostThisWeek, &u.CostThisMonth)
 		if err != nil {
 			fmt.Println(err)
-			result = "shit, query failed"
-			fmt.Fprint(w, result)
+			result = "shit, query failed at scan"
+			fmt.Fprintln(w, result)
 		}
 	}
 
