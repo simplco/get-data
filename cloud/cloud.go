@@ -3,6 +3,7 @@ package cloud
 import (
 	"database/sql"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"time"
@@ -46,33 +47,23 @@ type Usage struct {
 
 var (
 	db     *sql.DB
-	dbUser string
-	dbPass string
-	dbIP   string
-	dbDB   string
-	dsn    string
-	err    error
+	dbUser = os.Getenv("PG_USERNAME")
+	dbPass = os.Getenv("PG_PASSWORD")
+	dbIN   = os.Getenv("PG_INSTANCE_NAME")
+	dsn    = fmt.Sprintf("user=%s password=%s host=/cloudsql/%s", dbUser, dbPass, dbIN)
 )
 
 func init() {
-	dbUser = os.Getenv("PG_USERNAME")
-	dbPass = os.Getenv("PG_PASSWORD")
-	dbIP = os.Getenv("PG_EXT_IP")
-	dbDB = os.Getenv("PG_DB")
-	dsn = "postgres://" + dbUser + ":" + dbPass + "@" + dbIP + ":5432/" + dbDB + "?sslmode=disable"
-	// log.Println("pgdb uri: ", dsn)
+	var err error
 
 	db, err = sql.Open("postgres", dsn)
 	if err != nil {
-		panic(err)
+		log.Fatalf("couldnt open db: %v", err)
 	}
 
-	err = db.Ping()
-	if err != nil {
-		panic(err)
-	}
-
-	// log.Println("pgdb connection success")
+	// Only allow 1 connection to the database to avoid overloading it.
+	db.SetMaxIdleConns(1)
+	db.SetMaxOpenConns(1)
 }
 
 // Read reads from db
