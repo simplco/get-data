@@ -68,7 +68,7 @@ func init() {
 
 // Read reads from db
 func Read(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "connected to db @ %v", dsn)
+	// fmt.Fprintf(w, "connected to db @ %v", dsn)
 
 	var result string
 	u := User{}
