@@ -82,15 +82,13 @@ func Update(w http.ResponseWriter, req *http.Request) {
 	now := time.Now()
 
 	start := now.AddDate(0, 0, -3)
-	start.Format("2006-01-02")
 	end := now.AddDate(0, 0, -1)
-	end.Format("2006-01-02")
 
 	u := User{
 		UID: "139376",
 	}
 
-	fmt.Fprintf(w, "UID: %v\tStarting %v\tEnding: %v\n", u.UID, start, end)
+	fmt.Fprintf(w, "UID: %v\tStarting %v\tEnding: %v\n", u.UID, start.Format("2006-01-02"), end.Format("2006-01-02"))
 
 	// readings := getLatestReadingsDay(u.UID, start.String(), end.String(), token)
 	// fmt.Fprintln(w, readings)
