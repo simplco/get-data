@@ -4,6 +4,6 @@ WORKDIR /go/src/simpl/static
 COPY . .
 
 RUN go get ./
-RUN go build static
-RUN ./static > logfile 
+RUN go build
+RUN ./static
 # CMD ["./app > app.txt"]
