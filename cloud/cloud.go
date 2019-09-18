@@ -56,7 +56,7 @@ var (
 func init() {
 	var err error
 
-	db, err = sql.Open("simpl_users", dsn)
+	db, err = sql.Open("postgres", dsn)
 	if err != nil {
 		log.Fatalf("couldnt open db: %v", err)
 	}
