@@ -1,3 +1,5 @@
+// TODO: wrap Read in Email fn.
+
 package cloud
 
 import (
