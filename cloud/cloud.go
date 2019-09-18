@@ -90,7 +90,7 @@ func Update(w http.ResponseWriter, req *http.Request) {
 
 	fmt.Fprintf(w, "UID: %v\tStarting %v\tEnding: %v\n", u.UID, start.Format("2006-01-02"), end.Format("2006-01-02"))
 
-	readings := getLatestReadingsDay(u.UID, start.String(), end.String(), token)
+	readings := getLatestReadingsDay(u.UID, start.String(), end.String(), token, w)
 	fmt.Fprintln(w, readings)
 
 	// _, err = db.Exec("UPDATE users SET ( uid , meter , email , utility , tariff , latestts , wkts , mots , yescons , wkcons , mocons , yescost , wkcost , mocost) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) WHERE uid = $1", d.UID, d.Meterid, d.Useremail, d.Utility, d.ServiceTariff, d.LastReading, d.WeekStart, d.MonthStart, d.Yesterday, d.ThisWeek, d.ThisMonth, d.CostYesterday, d.CostThisWeek, d.CostThisMonth)
@@ -130,17 +130,17 @@ func Read(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "user: %v", u)
 }
 
-func getLatestReadingsDay(uid string, start string, end string, token string) []interface{} {
+func getLatestReadingsDay(uid string, start string, end string, token string, w http.ResponseWriter) []interface{} {
 	var url = "https://utilityapi.com/api/v2/intervals?authorizations=" + uid + "&start=" + start + "&end=" + end
-
-	log.Printf("fetching latest day of intervals for meter %v ...\t", uid)
+	fmt.Fprintf(w, "url: %v", url)
+	fmt.Fprintf(w, "fetching latest day of intervals for meter %v ...\t", uid)
 
 	intervalRes := makeRequest(url, "GET", token)
 	intervals := intervalRes["intervals"].([]interface{})
 	list := intervals[0].(map[string]interface{})
 	readings := list["readings"].([]interface{})
 
-	log.Print("ok\n\n")
+	fmt.Fprint(w, "ok\n\n")
 	return readings
 }
 
