@@ -50,7 +50,8 @@ var (
 	dbUser = os.Getenv("PG_USERNAME")
 	dbPass = os.Getenv("PG_PASSWORD")
 	dbIN   = os.Getenv("PG_INSTANCE_NAME")
-	dsn    = fmt.Sprintf("user=%s password=%s host=/cloudsql/%s", dbUser, dbPass, dbIN)
+	dbName = os.Getenv("PG_DB")
+	dsn    = fmt.Sprintf("host=/cloudsql/%s dbname=%s user=%s password=%s sslmode=disable", dbIN, dbName, dbUser, dbPass)
 )
 
 func init() {
