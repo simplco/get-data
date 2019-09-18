@@ -52,7 +52,7 @@ type Usage struct {
 var (
 	db *sql.DB
 
-	token = os.Getenv("UPAI_TOKEN")
+	token = os.Getenv("UAPI_TOKEN")
 
 	dbUser = os.Getenv("PG_USERNAME")
 	dbPass = os.Getenv("PG_PASSWORD")
