@@ -90,8 +90,8 @@ func Update(w http.ResponseWriter, req *http.Request) {
 
 	fmt.Fprintf(w, "UID: %v\tStarting %v\tEnding: %v\n", u.UID, start.Format("2006-01-02"), end.Format("2006-01-02"))
 
-	// readings := getLatestReadingsDay(u.UID, start.String(), end.String(), token)
-	// fmt.Fprintln(w, readings)
+	readings := getLatestReadingsDay(u.UID, start.String(), end.String(), token)
+	fmt.Fprintln(w, readings)
 
 	// _, err = db.Exec("UPDATE users SET ( uid , meter , email , utility , tariff , latestts , wkts , mots , yescons , wkcons , mocons , yescost , wkcost , mocost) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) WHERE uid = $1", d.UID, d.Meterid, d.Useremail, d.Utility, d.ServiceTariff, d.LastReading, d.WeekStart, d.MonthStart, d.Yesterday, d.ThisWeek, d.ThisMonth, d.CostYesterday, d.CostThisWeek, d.CostThisMonth)
 	// if err != nil {
