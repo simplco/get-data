@@ -85,7 +85,7 @@ func Update(w http.ResponseWriter, req *http.Request) {
 	start := now.AddDate(0, 0, -3)
 	end := now.AddDate(0, 0, -1)
 
-	u := User{
+	u := &User{
 		UID: "139376",
 	}
 
@@ -146,7 +146,7 @@ func getLatestReadingsDay(uid string, start string, end string, token string, w 
 	return readings
 }
 
-func calcRecentCosts(recentInterval []interface{}, u User) {
+func calcRecentCosts(recentInterval []interface{}, u *User) {
 	layout := "2006-01-02T15:04:05.999999-07:00"
 
 	// firstReading := readings[len(readings)-1].(map[string]interface{})
