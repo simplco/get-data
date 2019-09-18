@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math"
 	"net/http"
 	"os"
 	"time"
@@ -91,8 +92,9 @@ func Update(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "UID: %v\tStarting %v\tEnding: %v\n", u.UID, start.Format("2006-01-02"), end.Format("2006-01-02"))
 
 	readings := getLatestReadingsDay(u.UID, start.Format("2006-01-02"), end.Format("2006-01-02"), token, w)
-	fmt.Fprintln(w, readings)
+	calcRecentCosts(readings, u)
 
+	fmt.Fprintf(w, "user: \n%v\n", u)
 	// _, err = db.Exec("UPDATE users SET ( uid , meter , email , utility , tariff , latestts , wkts , mots , yescons , wkcons , mocons , yescost , wkcost , mocost) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) WHERE uid = $1", d.UID, d.Meterid, d.Useremail, d.Utility, d.ServiceTariff, d.LastReading, d.WeekStart, d.MonthStart, d.Yesterday, d.ThisWeek, d.ThisMonth, d.CostYesterday, d.CostThisWeek, d.CostThisMonth)
 	// if err != nil {
 	// 	fmt.Println(err)
@@ -132,7 +134,7 @@ func Read(w http.ResponseWriter, req *http.Request) {
 
 func getLatestReadingsDay(uid string, start string, end string, token string, w http.ResponseWriter) []interface{} {
 	var url = "https://utilityapi.com/api/v2/intervals?authorizations=" + uid + "&start=" + start + "&end=" + end
-	fmt.Fprintf(w, "url: %v", url)
+	fmt.Fprintf(w, "url: %v\n", url)
 	fmt.Fprintf(w, "fetching latest day of intervals for meter %v ...\t", uid)
 
 	intervalRes := makeRequest(url, "GET", token)
@@ -142,6 +144,25 @@ func getLatestReadingsDay(uid string, start string, end string, token string, w 
 
 	fmt.Fprint(w, "ok\n\n")
 	return readings
+}
+
+func calcRecentCosts(recentInterval []interface{}, u User) {
+	layout := "2006-01-02T15:04:05.999999-07:00"
+
+	// firstReading := readings[len(readings)-1].(map[string]interface{})
+	// firstReadingStr, _ := time.Parse(layout, firstReading["end"].(string))
+	lastReading := recentInterval[0].(map[string]interface{})
+	lastReadingTS, _ := time.Parse(layout, lastReading["end"].(string))
+	u.LastReading = lastReadingTS
+
+	var recentTotal float64
+	for _, v := range recentInterval[0:24] {
+		r := v.(map[string]interface{})
+		recentTotal += r["kwh"].(float64)
+	}
+	recentTotal = math.Floor(recentTotal*100) / 100
+	u.Yesterday = recentTotal
+	u.CostYesterday = math.Floor(u.Yesterday*u.Baseline*100) / 100
 }
 
 func makeRequest(url string, method string, token string) map[string]interface{} {
