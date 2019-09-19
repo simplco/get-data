@@ -80,7 +80,9 @@ func init() {
 func Update(w http.ResponseWriter, req *http.Request) {
 	// var result string
 	// var err error
+	reqURL := req.URL
 
+	fmt.Fprintln(w, "requrl: ", reqURL)
 	now := time.Now()
 
 	start := now.AddDate(0, 0, -3)
@@ -91,21 +93,23 @@ func Update(w http.ResponseWriter, req *http.Request) {
 
 	Read(w, req, u, start)
 
-	fmt.Fprintf(w, "UID: %v\tStarting %v\tEnding: %v\n", u.UID, start.Format("2006-01-02"), end.Format("2006-01-02"))
+	if u.IsUpdated == false {
+		fmt.Fprintf(w, "UID: %v\tStarting %v\tEnding: %v\n", u.UID, start.Format("2006-01-02"), end.Format("2006-01-02"))
 
-	readings := getLatestReadingsDay(u.UID, start.Format("2006-01-02"), end.Format("2006-01-02"), token, w)
-	calcRecentCosts(readings, u)
+		readings := getLatestReadingsDay(u.UID, start.Format("2006-01-02"), end.Format("2006-01-02"), token, w)
+		calcRecentCosts(readings, u)
 
-	fmt.Fprintf(w, "user: \n%v\n", u)
-	prevReading := u.LastReading.AddDate(0, 0, -1)
-	fmt.Fprintf(w, "latest reading: %v\t Previous Reading: %v\n", u.LastReading.Format("2006-01-02"), prevReading.Format("2006-01-02"))
+		fmt.Fprintf(w, "user: \n%v\n", u)
+		prevReading := u.LastReading.AddDate(0, 0, -1)
+		fmt.Fprintf(w, "latest reading: %v\t Previous Reading: %v\n", u.LastReading.Format("2006-01-02"), prevReading.Format("2006-01-02"))
 
-	_, err := db.Exec("UPDATE users SET (latestts , yescons , wkcons , mocons , yescost , wkcost , mocost) = ($1, $2, $3, $4, $5, $6, $7) WHERE uid = $8 and latestts = $9", u.LastReading, u.Yesterday, u.ThisWeek+u.Yesterday, u.ThisMonth+u.Yesterday, u.CostYesterday, u.CostThisWeek+u.CostYesterday, u.CostThisMonth+u.CostYesterday, u.UID, prevReading.Format("2006-01-02"))
-	if err != nil {
-		fmt.Fprintln(w, err)
-		fmt.Fprintln(w, "damn, query failed")
-	} else {
-		fmt.Fprintln(w, "db update success")
+		_, err := db.Exec("UPDATE users SET (latestts , yescons , wkcons , mocons , yescost , wkcost , mocost) = ($1, $2, $3, $4, $5, $6, $7) WHERE uid = $8 and latestts = $9", u.LastReading, u.Yesterday, u.ThisWeek+u.Yesterday, u.ThisMonth+u.Yesterday, u.CostYesterday, u.CostThisWeek+u.CostYesterday, u.CostThisMonth+u.CostYesterday, u.UID, prevReading.Format("2006-01-02"))
+		if err != nil {
+			fmt.Fprintln(w, err)
+			fmt.Fprintln(w, "damn, query failed")
+		} else {
+			fmt.Fprintln(w, "db update success")
+		}
 	}
 }
 
