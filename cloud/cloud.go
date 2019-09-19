@@ -84,10 +84,11 @@ func Update(w http.ResponseWriter, req *http.Request) {
 
 	start := now.AddDate(0, 0, -3)
 	end := now.AddDate(0, 0, -1)
-
 	u := &User{
-		UID: "139376",
+		Useremail: "ochoa.erick.d@gmail.com",
 	}
+
+	Read(w, req, u)
 
 	fmt.Fprintf(w, "UID: %v\tStarting %v\tEnding: %v\n", u.UID, start.Format("2006-01-02"), end.Format("2006-01-02"))
 
@@ -107,14 +108,13 @@ func Update(w http.ResponseWriter, req *http.Request) {
 }
 
 // Read reads from db
-func Read(w http.ResponseWriter, req *http.Request) {
+func Read(w http.ResponseWriter, req *http.Request, u *User) {
 	// fmt.Fprintf(w, "connected to db @ %v", dsn)
 
 	var result string
-	u := User{}
 
 	fmt.Fprintln(w, "querying db...")
-	row, err := db.Query("SELECT * FROM users WHERE email = 'ochoa.erick.d@gmail.com'")
+	row, err := db.Query("SELECT * FROM users WHERE email = $1", u.Useremail)
 	if err != nil {
 		result = "shit, query failed at statement"
 		fmt.Fprintln(w, result)
