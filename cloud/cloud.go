@@ -96,15 +96,14 @@ func Update(w http.ResponseWriter, req *http.Request) {
 	calcRecentCosts(readings, u)
 
 	fmt.Fprintf(w, "user: \n%v\n", u)
-	// _, err = db.Exec("UPDATE users SET ( uid , meter , email , utility , tariff , latestts , wkts , mots , yescons , wkcons , mocons , yescost , wkcost , mocost) = ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) WHERE uid = $1", d.UID, d.Meterid, d.Useremail, d.Utility, d.ServiceTariff, d.LastReading, d.WeekStart, d.MonthStart, d.Yesterday, d.ThisWeek, d.ThisMonth, d.CostYesterday, d.CostThisWeek, d.CostThisMonth)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	result = "damn, insert failed"
-	// 	return result
-	// }
 
-	// result = "db update success"
-	// return result
+	_, err := db.Exec("UPDATE users SET (latestts , yescons , wkcons , mocons , yescost , wkcost , mocost) = ($1, $2, $3+$2, $4+$2, $5, $6+$5, $7+$5) WHERE uid = $8 and wkcons = $3 and mocons=$4 and wkcost=$6 and mocost=$7", u.LastReading, u.Yesterday, u.ThisWeek, u.ThisMonth, u.CostYesterday, u.CostThisWeek, u.CostThisMonth)
+	if err != nil {
+		fmt.Println(err)
+		fmt.Fprintln(w, "damn, insert failed")
+	}
+
+	fmt.Fprintln(w, "db update success")
 }
 
 // Read reads from db
