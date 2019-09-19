@@ -99,7 +99,7 @@ func Update(w http.ResponseWriter, req *http.Request) {
 	prevReading := u.LastReading.AddDate(0, 0, -1)
 	fmt.Fprintf(w, "latest reading: %v\t Previous Reading: %v\n", u.LastReading.Format("2006-01-02"), prevReading.Format("2006-01-02"))
 
-	_, err := db.Exec("UPDATE users SET (latestts , yescons , wkcons , mocons , yescost , wkcost , mocost) = ($1, $2, $3+$2, $4+$2, $5, $6+$5, $7+$5) WHERE uid = $8 and latestts = $9", u.LastReading, u.Yesterday, u.ThisWeek, u.ThisMonth, u.CostYesterday, u.CostThisWeek, u.CostThisMonth, u.UID, prevReading.Format("2006-01-02"))
+	_, err := db.Exec("UPDATE users SET (latestts , yescons , wkcons , mocons , yescost , wkcost , mocost) = ($1, $2, $3, $4, $5, $6, $7) WHERE uid = $8 and latestts = $9", u.LastReading, u.Yesterday, u.ThisWeek+u.Yesterday, u.ThisMonth+u.Yesterday, u.CostYesterday, u.CostThisWeek+u.CostYesterday, u.CostThisMonth+u.CostYesterday, u.UID, prevReading.Format("2006-01-02"))
 	if err != nil {
 		fmt.Fprintln(w, err)
 		fmt.Fprintln(w, "damn, query failed")
