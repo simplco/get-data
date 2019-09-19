@@ -88,7 +88,7 @@ func Update(w http.ResponseWriter, req *http.Request) {
 		Useremail: "ochoa.erick.d@gmail.com",
 	}
 
-	Read(w, req, u)
+	Read(w, req, u, start)
 
 	fmt.Fprintf(w, "UID: %v\tStarting %v\tEnding: %v\n", u.UID, start.Format("2006-01-02"), end.Format("2006-01-02"))
 
@@ -100,23 +100,23 @@ func Update(w http.ResponseWriter, req *http.Request) {
 	fmt.Fprintf(w, "latest reading: %v\t Previous Reading: %v\n", u.LastReading, prevReading)
 
 	// _, err := db.Exec("UPDATE users SET (latestts , yescons , wkcons , mocons , yescost , wkcost , mocost) = ($1, $2, $3+$2, $4+$2, $5, $6+$5, $7+$5) WHERE uid = $8 and latestts = $9", u.LastReading, u.Yesterday, u.ThisWeek, u.ThisMonth, u.CostYesterday, u.CostThisWeek, u.CostThisMonth, u.UID, prevReading)
-	_, err := db.Exec("SELECT * FROM users WHERE uid = $1 and latestts = $2", u.UID, prevReading)
-	if err != nil {
-		fmt.Fprintln(w, err)
-		fmt.Fprintln(w, "damn, query failed")
-	} else {
-		fmt.Fprintln(w, "db update success")
-	}
+	// _, err := db.Exec("SELECT * FROM users WHERE uid = $1 and latestts = $2", u.UID, prevReading)
+	// if err != nil {
+	// 	fmt.Fprintln(w, err)
+	// 	fmt.Fprintln(w, "damn, query failed")
+	// } else {
+	// 	fmt.Fprintln(w, "db update success")
+	// }
 }
 
 // Read reads from db
-func Read(w http.ResponseWriter, req *http.Request, u *User) {
+func Read(w http.ResponseWriter, req *http.Request, u *User, ts time.Time) {
 	// fmt.Fprintf(w, "connected to db @ %v", dsn)
 
 	var result string
 
 	fmt.Fprintln(w, "querying db...")
-	row, err := db.Query("SELECT * FROM users WHERE email = $1", u.Useremail)
+	row, err := db.Query("SELECT * FROM users WHERE email = $1 and latestts = $2", u.Useremail, ts)
 	if err != nil {
 		result = "shit, query failed at statement"
 		fmt.Fprintln(w, result)
