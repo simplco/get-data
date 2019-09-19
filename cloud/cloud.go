@@ -116,7 +116,7 @@ func Read(w http.ResponseWriter, req *http.Request, u *User, ts time.Time) {
 	var result string
 
 	fmt.Fprintln(w, "querying db...")
-	row, err := db.Query("SELECT * FROM users WHERE email = $1 and latestts = $2", u.Useremail, ts.String())
+	row, err := db.Query("SELECT * FROM users WHERE email = $1 and latestts = $2", u.Useremail, ts.Format("2006-01-02"))
 	if err != nil {
 		result = "shit, query failed at statement"
 		fmt.Fprintln(w, result)
