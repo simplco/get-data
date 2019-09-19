@@ -101,9 +101,9 @@ func Update(w http.ResponseWriter, req *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 		fmt.Fprintln(w, "damn, insert failed")
+	} else {
+		fmt.Fprintln(w, "db update success")
 	}
-
-	fmt.Fprintln(w, "db update success")
 }
 
 // Read reads from db
