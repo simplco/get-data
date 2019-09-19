@@ -121,16 +121,21 @@ func Read(w http.ResponseWriter, req *http.Request, u *User, ts time.Time) {
 		fmt.Fprintln(w, result)
 		fmt.Fprintln(w, err)
 	}
-	for row.Next() {
-		err = row.Scan(&u.UID, &u.Meterid, &u.Useremail, &u.Utility, &u.ServiceTariff, &u.LastReading, &u.WeekStart, &u.MonthStart, &u.Yesterday, &u.ThisWeek, &u.ThisMonth, &u.CostYesterday, &u.CostThisWeek, &u.CostThisMonth)
-		if err != nil {
-			fmt.Println(err)
-			result = "shit, query failed at scan"
-			fmt.Fprintln(w, result)
-		}
-	}
 
-	fmt.Fprintf(w, "user: %v\n", u)
+	if u.Yesterday == 0 {
+		fmt.Fprintln(w, "already updated!")
+	} else {
+		for row.Next() {
+			err = row.Scan(&u.UID, &u.Meterid, &u.Useremail, &u.Utility, &u.ServiceTariff, &u.LastReading, &u.WeekStart, &u.MonthStart, &u.Yesterday, &u.ThisWeek, &u.ThisMonth, &u.CostYesterday, &u.CostThisWeek, &u.CostThisMonth)
+			if err != nil {
+				fmt.Println(err)
+				result = "shit, query failed at scan"
+				fmt.Fprintln(w, result)
+			}
+		}
+
+		fmt.Fprintf(w, "user: %v\n", u)
+	}
 }
 
 func getLatestReadingsDay(uid string, start string, end string, token string, w http.ResponseWriter) []interface{} {
