@@ -80,7 +80,7 @@ func init() {
 func Update(w http.ResponseWriter, req *http.Request) {
 	// var result string
 	// var err error
-	reqURL := req.URL
+	reqURL := req.URL.String()
 
 	fmt.Fprintln(w, "requrl: ", reqURL)
 	now := time.Now()
