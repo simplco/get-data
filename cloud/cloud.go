@@ -99,10 +99,11 @@ func Update(w http.ResponseWriter, req *http.Request) {
 	prevReading := u.LastReading.AddDate(0, 0, -1)
 	fmt.Fprintf(w, "latest reading: %v\t Previous Reading: %v\n", u.LastReading, prevReading)
 
-	_, err := db.Exec("UPDATE users SET (latestts , yescons , wkcons , mocons , yescost , wkcost , mocost) = ($1, $2, $3+$2, $4+$2, $5, $6+$5, $7+$5) WHERE uid = $8 and latestts = $9", u.LastReading, u.Yesterday, u.ThisWeek, u.ThisMonth, u.CostYesterday, u.CostThisWeek, u.CostThisMonth, u.UID, prevReading)
+	// _, err := db.Exec("UPDATE users SET (latestts , yescons , wkcons , mocons , yescost , wkcost , mocost) = ($1, $2, $3+$2, $4+$2, $5, $6+$5, $7+$5) WHERE uid = $8 and latestts = $9", u.LastReading, u.Yesterday, u.ThisWeek, u.ThisMonth, u.CostYesterday, u.CostThisWeek, u.CostThisMonth, u.UID, prevReading)
+	_, err := db.Exec("SELECT * FROM users WHERE uid = $1 and latestts = $2", u.UID, prevReading)
 	if err != nil {
 		fmt.Fprintln(w, err)
-		fmt.Fprintln(w, "damn, insert failed")
+		fmt.Fprintln(w, "damn, query failed")
 	} else {
 		fmt.Fprintln(w, "db update success")
 	}
