@@ -129,7 +129,7 @@ func Read(w http.ResponseWriter, req *http.Request, u *User) {
 		}
 	}
 
-	fmt.Fprintf(w, "user: %v", u)
+	fmt.Fprintf(w, "user: %v\n", u)
 }
 
 func getLatestReadingsDay(uid string, start string, end string, token string, w http.ResponseWriter) []interface{} {
@@ -147,6 +147,14 @@ func getLatestReadingsDay(uid string, start string, end string, token string, w 
 }
 
 func calcRecentCosts(recentInterval []interface{}, u *User) {
+	var tariff float64
+
+	if u.ThisMonth >= 339 {
+		tariff = 0.39
+	}
+
+	tariff = 0.29
+
 	layout := "2006-01-02T15:04:05.999999-07:00"
 
 	// firstReading := readings[len(readings)-1].(map[string]interface{})
@@ -162,7 +170,7 @@ func calcRecentCosts(recentInterval []interface{}, u *User) {
 	}
 	recentTotal = math.Floor(recentTotal*100) / 100
 	u.Yesterday = recentTotal
-	u.CostYesterday = math.Floor(u.Yesterday*u.Baseline*100) / 100
+	u.CostYesterday = math.Floor(u.Yesterday*tariff*100) / 100
 }
 
 func makeRequest(url string, method string, token string) map[string]interface{} {
