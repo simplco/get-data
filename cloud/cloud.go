@@ -101,7 +101,7 @@ func Update(w http.ResponseWriter, req *http.Request) {
 
 	_, err := db.Exec("UPDATE users SET (latestts , yescons , wkcons , mocons , yescost , wkcost , mocost) = ($1, $2, $3+$2, $4+$2, $5, $6+$5, $7+$5) WHERE uid = $8 and latestts = $9", u.LastReading, u.Yesterday, u.ThisWeek, u.ThisMonth, u.CostYesterday, u.CostThisWeek, u.CostThisMonth, u.UID, prevReading)
 	if err != nil {
-		fmt.Println(err)
+		fmt.Fprintln(w, err)
 		fmt.Fprintln(w, "damn, insert failed")
 	} else {
 		fmt.Fprintln(w, "db update success")
