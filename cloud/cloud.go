@@ -78,9 +78,6 @@ func init() {
 
 // Update updates db with latest energy data
 func Update(w http.ResponseWriter, req *http.Request) {
-	reqURL := req.URL.Path
-
-	fmt.Fprintln(w, "requrl: ", reqURL)
 	now := time.Now()
 
 	start := now.AddDate(0, 0, -3)
