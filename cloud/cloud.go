@@ -86,7 +86,7 @@ func Update(w http.ResponseWriter, req *http.Request) {
 		Useremail: "ochoa.erick.d@gmail.com",
 	}
 
-	Read(w, req, u, start)
+	Read(w, req, u, start.AddDate(0, 0, 1))
 
 	if u.IsUpdated == false {
 		fmt.Fprintf(w, "UID: %v\tStarting %v\tEnding: %v\n", u.UID, start.Format("2006-01-02"), end.Format("2006-01-02"))
